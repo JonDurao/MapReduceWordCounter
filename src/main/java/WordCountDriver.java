@@ -11,8 +11,6 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.BasicConfigurator;
 
-import java.io.IOException;
-
 public class WordCountDriver extends Configured implements Tool {
     public static void main(String[] args) throws Exception {
         BasicConfigurator.configure();
@@ -43,11 +41,16 @@ public class WordCountDriver extends Configured implements Tool {
         // Seteamos los paths de entrada y salida del job (ARGS)
 //        FileInputFormat.addInputPath(job, new Path(args[0]));
 //        FileOutputFormat.setOutputPath(job, new Path(args[1]));
-        FileInputFormat.addInputPath(job, new Path("/src/main/resources/wc"));
-        FileOutputFormat.setOutputPath(job, new Path("/src/main/resources/wc-out"));
+        FileInputFormat.addInputPath(job, new Path("/home/jndurao/IdeaProjects/map-reduce/src/main/resources/wc"));
+        FileOutputFormat.setOutputPath(job, new Path("/home/jndurao/IdeaProjects/map-reduce/src/main/resources/wc-out"));
 
         // Indicamos el JAR que contiene el job
         job.setJarByClass(WordCountDriver.class);
+
+        // Lanzamos el job
+        // submit no espera a que termine la ejecucion
+//        job.submit();
+        job.waitForCompletion(true);
 
         return 0;
     }

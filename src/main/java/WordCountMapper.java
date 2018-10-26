@@ -1,9 +1,5 @@
 import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.JobConf;
-import org.apache.hadoop.mapred.OutputCollector;
-import org.apache.hadoop.mapred.Reporter;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
@@ -16,7 +12,7 @@ public class WordCountMapper extends Mapper {
         if (value instanceof Text) {
 
             // Cosas que no son palabras como separador
-            String[] splits = value.toString().split("\\W+");
+            String[] splits = value.toString().trim().split("\\W+");
 
             for (String split : splits) {
                 // NullWritable.get() para pasar un valor vacio
