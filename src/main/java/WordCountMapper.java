@@ -1,3 +1,6 @@
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.NullWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapred.OutputCollector;
 import org.apache.hadoop.mapred.Reporter;
@@ -5,16 +8,20 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
 
-public class WordCountMapper extends Mapper implements org.apache.hadoop.mapred.Mapper {
-    public void map(Object o, Object o2, OutputCollector outputCollector, Reporter reporter) throws IOException {
+//public class WordCountMapper extends Mapper <LongWritable, Text, Text, LongWritable> {
+public class WordCountMapper extends Mapper {
+    @Override
+//    protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+    protected void map(Object key, Object value, Context context) throws IOException, InterruptedException {
+        if (value instanceof Text) {
 
-    }
+            // Cosas que no son palabras como separador
+            String[] splits = value.toString().split("\\W+");
 
-    public void close() throws IOException {
-
-    }
-
-    public void configure(JobConf jobConf) {
-
+            for (String split : splits) {
+                // NullWritable.get() para pasar un valor vacio
+                context.write(new Text(split), new LongWritable(1));
+            }
+        }
     }
 }

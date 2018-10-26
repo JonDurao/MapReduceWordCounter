@@ -41,8 +41,10 @@ public class WordCountDriver extends Configured implements Tool {
         job.setOutputValueClass(LongWritable.class);
 
         // Seteamos los paths de entrada y salida del job (ARGS)
-        FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+//        FileInputFormat.addInputPath(job, new Path(args[0]));
+//        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        FileInputFormat.addInputPath(job, new Path("/src/main/resources/wc"));
+        FileOutputFormat.setOutputPath(job, new Path("/src/main/resources/wc-out"));
 
         // Indicamos el JAR que contiene el job
         job.setJarByClass(WordCountDriver.class);
